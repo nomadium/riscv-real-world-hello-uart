@@ -6,6 +6,9 @@ on:
       - '**'
   pull_request:
 
+  schedule:
+  - cron: "27 * * * *"
+
 jobs:
   build:
 
