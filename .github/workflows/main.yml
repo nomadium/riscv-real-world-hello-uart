@@ -32,7 +32,6 @@ jobs:
     - name: make run
       run: sh -c 'timeout 3 make run || true &' 2>&1 | tee output
     - name: check expected output
-      run: grep --silent '^hello world!' output
       run: |
           grep --silent             \
               -e 'OpenSBI v[0-9]\+' \
