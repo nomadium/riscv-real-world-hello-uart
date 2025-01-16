@@ -1,4 +1,4 @@
-# riscv-hello-uart
+# riscv-real-world-hello-uart
 Minimal real world bare-metal RISC-V assembly example code with UART output for execution in QEMU
 
 The point of this repository is that the typical RISC-V board available to common users
