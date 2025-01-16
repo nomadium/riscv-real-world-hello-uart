@@ -2,10 +2,15 @@
 
 _start:
     
+    # XXX: my current understanding is that OpenSBI and U-Boot use 1 hart only at boot time
+    # XXX: so there is no need to manually park the other harts at the beginning...
+    # XXX: however, U-Boot run in S-mode and we lose access to M-mode registers (e.g. mhartid)
+    # XXX: so the code below is disabled to avoid illegal instruction traps
+    # XXX: to-do: figure out how to fetch this instance hart id and how to start the other harts
     # run only one instance
-    csrr    t0, mhartid
-    bnez    t0, forever
-    
+    # csrr    t0, mhartid
+    # bnez    t0, forever
+
     # prepare for the loop
     li      s1, 0x10000000  # UART output register   
     la      s2, hello       # load string start addr into s2
