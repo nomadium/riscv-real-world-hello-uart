@@ -34,5 +34,6 @@ jobs:
           grep --silent             \
               -e 'OpenSBI v[0-9]\+' \
               -e '^U-Boot [0-9]\+'  \
+              -e '^Starting kernel' \
               -e '^hello world!'    \
               output

@@ -1,15 +1,14 @@
 .global _start
 
 _start:
-    
-    # XXX: my current understanding is that OpenSBI and U-Boot use 1 hart only at boot time
-    # XXX: so there is no need to manually park the other harts at the beginning...
-    # XXX: however, U-Boot run in S-mode and we lose access to M-mode registers (e.g. mhartid)
-    # XXX: so the code below is disabled to avoid illegal instruction traps
-    # XXX: to-do: figure out how to fetch this instance hart id and how to start the other harts
+    # Main U-Boot use case is to boot Linux kernels.
+    # Linux kernel in RISC-V expects to have the hartid of the current core in a0.
+    # So by using this bootloader and this de-facto standard, we can rely on that as well.
+    # See: https://www.kernel.org/doc/html/next/riscv/boot.html
+
     # run only one instance
-    # csrr    t0, mhartid
-    # bnez    t0, forever
+    mv      tp, a0          # Save hart id in tp register
+    bnez    tp, forever     # other harts will just spin forever
 
     # prepare for the loop
     li      s1, 0x10000000  # UART output register   
