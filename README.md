@@ -1,5 +1,5 @@
 # riscv-real-world-hello-uart
-Minimal real world bare-metal RISC-V assembly example code with UART output for execution in QEMU
+Minimal real world bare-metal RISC-V assembly (and C) example code with UART output for execution in QEMU
 
 The point of this repository is that the typical RISC-V board available to common users
 are set up to boot with U-Boot and use OpenSBI firmware. So this repository just attempts to

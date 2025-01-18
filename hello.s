@@ -9,25 +9,23 @@ _start:
     # run only one instance
     mv      tp, a0          # Save hart id in tp register
     bnez    tp, forever     # other harts will just spin forever
-
-    # prepare for the loop
-    li      s1, 0x10000000  # UART output register   
-    la      s2, hello       # load string start addr into s2
-    addi    s3, s2, 13      # set up string end addr in s3
-
-loop:
-    lb      s4, 0(s2)       # load next byte at s2 into s4
-    sb      s4, 0(s1)       # write byte to UART register 
-    addi    s2, s2, 1       # increase s2
-    blt     s2, s3, loop    # branch back until end addr (s3) reached
+                            # Note this trivial "kernel" doesn't do much with the hart id
+                            # value, but it's good idea to save it, as there are no standard
+                            # mechanisms (that I'm aware of in 2025, see comment above)
+                            # other than the register mhartid (not accessible in S-mode)
+    # setup a stack for C.
+    # stack0 is declared in start.c,
+    # with a 4096-byte stack per CPU.
+    # sp = stack0 + (hartid * 4096)
+    la      sp, stack0
+    li      a0, 1024*4
+    mv      a1, tp
+    addi    a1, a1, 1
+    mul     a0, a0, a1
+    add     sp, sp, a0
+    # jump to start() in start.c
+    call start
 
 forever:
     wfi
     j       forever
-
-
-.section .data
-
-hello:
-  .string "hello world!\n"
-  
